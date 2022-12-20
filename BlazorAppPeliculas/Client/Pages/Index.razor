@@ -1,0 +1,35 @@
+﻿@page "/"
+<div>
+	<h3>Pelicula</h3>
+	<p>Titulo: <b>@Titanes.Titulo</b></p>
+	<p>Titulo: <b>@Titanes.FechaLanzamiento.ToString()</b></p>
+</div>
+
+@foreach(var pelicula in ObtenerPeliculas())
+{
+	<div>
+		<p>Titulo: <b>@pelicula.Titulo</b></p>
+		<p>Titulo: <b>@pelicula.FechaLanzamiento.ToString()</b></p>
+	</div>
+}
+
+@code{
+	Pelicula Titanes {get { return ObtenerPelicula(); }}
+	Pelicula ObtenerPelicula()
+	{
+		return new Pelicula
+			{
+				Titulo = "Titanes del pacifico",
+				FechaLanzamiento = new DateOnly(2015,11,11)
+			};
+	}
+	List<Pelicula> ObtenerPeliculas()
+	{
+		return new List<Pelicula>()
+			{
+				new Pelicula{Titulo = "Titanes del pacifico",FechaLanzamiento = new DateOnly(2015,11,11)},
+				new Pelicula{Titulo = "Vengadores",FechaLanzamiento = new DateOnly(2013,11,11)},
+				new Pelicula{Titulo = "Gigantes de acero",FechaLanzamiento = new DateOnly(2012,11,11)}
+			};
+	}
+}
