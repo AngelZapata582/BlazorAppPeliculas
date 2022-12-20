@@ -5,31 +5,60 @@
 	<p>Titulo: <b>@Titanes.FechaLanzamiento.ToString()</b></p>
 </div>
 
-@foreach(var pelicula in ObtenerPeliculas())
+@if(Peliculas is null)
 {
-	<div>
-		<p>Titulo: <b>@pelicula.Titulo</b></p>
-		<p>Titulo: <b>@pelicula.FechaLanzamiento.ToString()</b></p>
+	<div class="d-flex justify-content-center">
+		<div class="spinner-border" role="status">
+			<span class="visually-hidden">Loading...</span>
+		</div>
+		<span class="visually-hidden">Loading...</span>
 	</div>
+}else if(Peliculas.Count is 0)
+{
+	<p>No hay peliculas.</p>
+}
+else
+{
+	@foreach (Pelicula pelicula in Peliculas)
+	{
+		<div>
+			<p>Titulo: <b>@pelicula.Titulo</b>
+				@if(DateTime.Today.Subtract(pelicula.FechaLanzamiento).Days <= 20)
+				{
+					<span style="color: red">¡Estreno!</span>
+				}
+			</p>
+			<p>Fecha de lanzamiento: <b>@pelicula.FechaLanzamiento.ToString()</b></p>
+		</div>
+	}	
 }
 
 @code{
+	List<Pelicula>? Peliculas { get; set; }
 	Pelicula Titanes {get { return ObtenerPelicula(); }}
+
+	protected override async Task OnInitializedAsync()
+	{
+		await Task.Delay(3000);
+		Peliculas = ObtenerPeliculas();
+	}
+
 	Pelicula ObtenerPelicula()
 	{
 		return new Pelicula
 			{
-				Titulo = "Titanes del pacifico",
-				FechaLanzamiento = new DateOnly(2015,11,11)
+				Titulo = "Avatar",
+				FechaLanzamiento = new DateTime(2012,11,11)
 			};
 	}
 	List<Pelicula> ObtenerPeliculas()
 	{
 		return new List<Pelicula>()
 			{
-				new Pelicula{Titulo = "Titanes del pacifico",FechaLanzamiento = new DateOnly(2015,11,11)},
-				new Pelicula{Titulo = "Vengadores",FechaLanzamiento = new DateOnly(2013,11,11)},
-				new Pelicula{Titulo = "Gigantes de acero",FechaLanzamiento = new DateOnly(2012,11,11)}
+				new Pelicula{Titulo = "Titanes del pacifico",FechaLanzamiento = new DateTime(2022,12,12)},
+				new Pelicula{Titulo = "Titanes del pacifico",FechaLanzamiento = new DateTime(2015,11,11)},
+				new Pelicula{Titulo = "Vengadores",FechaLanzamiento = new DateTime(2013,11,11)},
+				new Pelicula{Titulo = "Gigantes de acero",FechaLanzamiento = new DateTime(2012,11,11)}
 			};
 	}
 }

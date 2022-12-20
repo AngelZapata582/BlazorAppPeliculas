@@ -9,6 +9,6 @@ namespace BlazorAppPeliculas.Shared.Entidades
 	public class Pelicula
 	{
 		public string Titulo { get; set; } = null!;
-		public DateOnly? FechaLanzamiento { get; set; }
+		public DateTime FechaLanzamiento { get; set; }
 	}
 }
